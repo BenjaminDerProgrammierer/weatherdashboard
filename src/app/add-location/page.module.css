@@ -1,0 +1,70 @@
+.title {
+    margin-bottom: 1rem;
+    padding: 0 4rem 0 0.1rem;
+    border-bottom: 1px solid var(--quiet);
+}
+
+.inputContainer {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--quiet);
+    border-radius: 4px;
+    background: var(--background);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:has(input:focus) {
+        border-color: var(--foreground);
+    }
+
+    input {
+        width: 100%;
+        border: none;
+        background: transparent;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.errorText {
+    color: var(--error);
+}
+
+.locationsList {
+    border: 1px solid var(--quiet);
+    border-radius: 4px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.locationItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--quiet);
+
+    h3.locationItemAddress {
+        margin-bottom: 0.25rem;
+    }
+
+    p.locationItemCoordinates {
+        color: var(--quiet);
+    }
+
+    button.addLocation {
+        border: none;
+        background: transparent;
+        cursor: pointer;
+
+        &:disabled {
+            cursor: not-allowed;
+            color: var(--quiet);
+        }
+    }
+}
