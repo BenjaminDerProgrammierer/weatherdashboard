@@ -1,10 +1,91 @@
+export type Location = {
+    address: string;
+    adminDistrict: string | null;
+    adminDistrictCode: string | null;
+    city: string | null;
+    country: string;
+    countryCode: string;
+    dmaCd: string | null;
+    displayContext: string | null;
+    ianaTimeZone: string | null;
+    latitude: number | null;
+    locale: [string | null, string | null, string | null, string | null];
+    longitude: number | null;
+    neighborhood: string | null;
+    placeId: string;
+    postalCode: string | null;
+    postalKey: string | null;
+    disputedArea: boolean;
+    disputedCountries: string[] | null;
+    disputedCountryCodes: string[] | null;
+    disputedCustomers: string[] | null;
+    disputedShowCountry: boolean[];
+    iataCode: string | null;
+    icaoCode: string | null;
+    locId: string | null;
+    locationCategory: string | null;
+    pwsId: string | null;
+    type: string | null;
+};
+
+export type Weather = {
+  cloudCeiling: null,
+  cloudCover: number,
+  cloudCoverPhrase: string,
+  dayOfWeek: string,
+  dayOrNight: string,
+  expirationTimeUtc: number,
+  iconCode: number,
+  iconCodeExtend: number,
+  obsQualifierCode: null,
+  obsQualifierSeverity: null,
+  precip1Hour: number,
+  precip6Hour: number,
+  precip24Hour: number,
+  pressureAltimeter: number,
+  pressureChange: number,
+  pressureMeanSeaLevel: number,
+  pressureTendencyCode: number,
+  pressureTendencyTrend: string,
+  relativeHumidity: number,
+  snow1Hour: number,
+  snow6Hour: number,
+  snow24Hour: number,
+  sunriseTimeLocal: string,
+  sunriseTimeUtc: number,
+  sunsetTimeLocal: string,
+  sunsetTimeUtc: number,
+  temperature: number,
+  temperatureChange24Hour: number,
+  temperatureDewPoint: number,
+  temperatureFeelsLike: number,
+  temperatureHeatIndex: number,
+  temperatureMax24Hour: number,
+  temperatureMaxSince7Am: number,
+  temperatureMin24Hour: number,
+  temperatureWetBulbGlobe: number,
+  temperatureWindChill: number,
+  uvDescription: string,
+  uvIndex: number,
+  validTimeLocal: string,
+  validTimeUtc: number,
+  visibility: number,
+  windDirection: number,
+  windDirectionCardinal: string,
+  windGust: number,
+  windSpeed: number,
+  wxPhraseLong: string,
+  wxPhraseMedium: string,
+  wxPhraseShort: string
+}
+
 const BASE_URL = "https://api.weather.com/v3";
 const API_KEY = process.env.API_KEY;
 const LANGUAGE = "en-US";
 const UNITS = "m";
 
-// https://developer.weather.com/utility-aggregation/docs/location-service-point-v-3-0
-export async function getLocationByName(name: string) {
+// https://developer.weather.com/utility-aggregation/docs/location-service-search-v-3-0
+export async function getLocationByName(name: string): Promise<Location> {
     return fetch(`${BASE_URL}/location/search?apiKey=${API_KEY}&query=${encodeURIComponent(name)}&language=${LANGUAGE}&format=json&locationType=city`)
         .then(response => response.json())
         .then((data) => data.location);
@@ -15,6 +96,14 @@ export async function getLocationByCoordinates(latitude: number, longitude: numb
     return fetch(`${BASE_URL}/location/point?geocode=${encodeURIComponent(latitude + "," + longitude)}&language=${LANGUAGE}&format=json&apiKey=${API_KEY}`)
         .then(response => response.json())
         .then(data => data.location)
+}
+
+// https://developer.weather.com/utility-aggregation/docs/location-service-point-v-3-0
+
+export async function getLocationByPlaceId(placeId: string): Promise<Location> {
+    return fetch(`${BASE_URL}/location/point?placeid=${encodeURIComponent(placeId)}&language=${LANGUAGE}&format=json&apiKey=${API_KEY}`)
+        .then(response => response.json())
+        .then(data => data.location);
 }
 
 // https://developer.weather.com/alertsandnotifications/docs/weather-alerts-headlines-v-3-0
@@ -39,60 +128,22 @@ export async function getAlertHeadlines(countryCode: string) {
 }
 
 // https://developer.weather.com/forecastsandinsights/docs/currents-on-demand-v-3-0
-export async function getCurrentObservations(placeId: string) {
+export async function getCurrentObservations(placeId: string): Promise<Weather> {
     return fetch(`https://api.weather.com/v3/wx/observations/current?placeid=${encodeURIComponent(placeId)}&language=${LANGUAGE}&units=${UNITS}&format=json&apiKey=${API_KEY}`)
         .then(response => response.json())
-        .then(data => data.location)
 }
 
 // https://developer.weather.com/forecastsandinsights/docs/hourly-forecasts-v-3-0
 export async function getHourlyWeatherForecast(placeId: string) {
     return fetch(`https://api.weather.com/v3/wx/forecast/hourly/1day?placeid=${encodeURIComponent(placeId)}&language=${LANGUAGE}&units=${UNITS}&format=json&apiKey=${API_KEY}`)
         .then(response => response.json())
-        .then(data => data.location)
 }
 
 
-// LOCKED
+// LOCKED with curent API key.
 // https://api.weather.com/v2/fcstdaily7s?insightType=all&geocode=48.265%2C14.257&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
 // https://api.weather.com/v3/insights?insightType=all&geocode=48.265%2C14.257&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
 // https://api.weather.com/v3/links?insightType=all&geocode=48.265%2C14.257&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
-
-// Location search
-// https://api.weather.com/v3/location/search?locationType=city,locality,neighborhood,postal&query=Linz&language=en-us&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
-
-// Placeid-based
-// https://api.weather.com/v3/location/point?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
-// https://api.weather.com/v3/alerts/headlines?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
-// https://api.weather.com/v3/wx/observations/current?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
-// https://api.weather.com/v2/fcstdaily7s?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
-// https://api.weather.com/v3/wx/forecast/hourly/1day?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
-// https://api.weather.com/v3/insights?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
 // https://api.weather.com/v3/links?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
-
-/*
-export async function getQueryOne(locationId: string = "48.099%2C14.446") {
-    const url = `https://api.weather.com/v2/aggcommon/v3-location-point;v3-wx-observations-current;v2fcstdaily7s;v3-links?geocode=${locationId}&language=en-us&units=m&format=json&apiKey=${API_KEY}`;
-
-    return fetch(url)
-        .then(response => response.json())
-        .then((data) => {
-            return data;
-        });
-}
-
-export async function getV2FcstDaily7s(lat: number, lon: number, units: 'm' | 'e' = 'm'): Promise<any> {
-    //     const geocode = encodeURIComponent(`${lat},${lon}`);
-    //     const url = `https://api.weather.com/v2/fcstdaily7s?geocode=${geocode}&language=${LANGUAGE}&units=${units}&format=json&apiKey=${API_KEY}`;
-
-    //     return fetch(url).then(response => response.json());
-    return Promise<0>;
-}
-
-export async function getV3Links(lat: number, lon: number): Promise<any> {
-    const geocode = encodeURIComponent(`${lat},${lon}`);
-    const url = `${BASE_URL}/links?geocode=${geocode}&language=${LANGUAGE}&format=json&apiKey=${API_KEY}`;
-
-    return fetch(url).then(response => response.json()).catch(() => null);
-}
-*/
+// https://api.weather.com/v3/insights?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525
+// https://api.weather.com/v2/fcstdaily7s?insightType=all&placeid=5179e1e6bcdb563e9fb74874449402ef0d93448f967476e0d880f1966cbc4a90&language=en-us&units=m&par=samsung_widget&format=json&apiKey=e1f10a1e78da46f5b10a1e78da96f525

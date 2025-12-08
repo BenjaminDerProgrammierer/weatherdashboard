@@ -1,37 +1,7 @@
-import { getLocationByCoordinates, getLocationByName } from '@/lib/weather';
+import { getLocationByCoordinates, getLocationByName, Location } from '@/lib/weather';
 import { NextResponse } from 'next/server';
 
-export type Location = {
-    address: string;
-    adminDistrict: string | null;
-    adminDistrictCode: string | null;
-    city: string | null;
-    country: string;
-    countryCode: string;
-    dmaCd: string | null;
-    displayContext: string | null;
-    ianaTimeZone: string | null;
-    latitude: number | null;
-    locale: [string | null, string | null, string | null, string | null];
-    longitude: number | null;
-    neighborhood: string | null;
-    placeId: string;
-    postalCode: string | null;
-    postalKey: string | null;
-    disputedArea: boolean;
-    disputedCountries: string[] | null;
-    disputedCountryCodes: string[] | null;
-    disputedCustomers: string[] | null;
-    disputedShowCountry: boolean[];
-    iataCode: string | null;
-    icaoCode: string | null;
-    locId: string | null;
-    locationCategory: string | null;
-    pwsId: string | null;
-    type: string | null;
-};
-
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse<{success: boolean, locations?: Location[], error?: string}>> {
     const { searchParams } = new URL(request.url);
 
     if (!searchParams.get("geocode") && !searchParams.get("name")) {
@@ -59,7 +29,7 @@ export async function GET(request: Request) {
         // Do not handle
     }
 
-    const locations = [];
+    const locations: Location[] = [];
 
     for (let i = 0; i < location?.['address'].length; i++) {
         locations.push({
