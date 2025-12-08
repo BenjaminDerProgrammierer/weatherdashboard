@@ -1,9 +1,8 @@
 'use client';
-
 import { useState } from "react";
 
-import { Location } from "@/app/api/location/route";
 import { getLocalStorageLocations } from "@/lib/locationStorage";
+import { Location } from "@/lib/weather";
 
 export default function Home() {
   // Load locations from local storage

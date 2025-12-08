@@ -1,5 +1,6 @@
-import { Location } from "@/app/api/location/route";
 import { toast } from "react-hot-toast";
+
+import { Location } from "@/lib/weather";
 
 export function getLocalStorageLocations(): Location[] {
     if (globalThis.window === undefined) {
@@ -8,7 +9,7 @@ export function getLocalStorageLocations(): Location[] {
     return JSON.parse(localStorage.getItem("locations") || "[]");
 }
 
-export function setLocalStorageLocations(locations: Location[]) {
+function setLocalStorageLocations(locations: Location[]) {
     if (globalThis.window === undefined) {
         return;
     }

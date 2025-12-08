@@ -16,6 +16,9 @@ export async function GET(request: Request): Promise<NextResponse<{success: bool
         if (geocode?.[0] && geocode?.[1]) {
             location = await getLocationByCoordinates(geocode[0], geocode[1]);
         }
+        if (!location) {
+            return NextResponse.json({ success: false, error: "Location not found" }, { status: 404 });
+        }
     } catch {
         // Do not handle
     }
@@ -24,6 +27,9 @@ export async function GET(request: Request): Promise<NextResponse<{success: bool
         const name = searchParams.get("name");
         if (name) {
             location = await getLocationByName(name);
+        }
+        if (!location) {
+            return NextResponse.json({ success: false, error: "Location not found" }, { status: 404 });
         }
     } catch {
         // Do not handle
