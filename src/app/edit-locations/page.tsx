@@ -1,18 +1,19 @@
 'use client';
 
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Minus, Plus, Search } from 'lucide-react';
+import { Minus, Plus, Search, Undo2 } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 
-import { Location } from '@/app/api/location/route';
 import styles from './page.module.css';
+import { Location } from '@/lib/weather';
 import { addLocalStorageLocation, getLocalStorageLocations, removeLocalStorageLocation } from '@/lib/locationStorage';
+import Link from 'next/link';
 
 export default function AddLocationPage() {
     const [query, setQuery] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [isSending, setIsSending] = useState(false);
-    const [locations, setLocations] = useState<Location[]>([]);
+    const [locations, setLocations] = useState<Location[]>(getLocalStorageLocations());
     const [localStorageLocations, setLocalStorageLocations] = useState<Location[]>(getLocalStorageLocations());
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -83,7 +84,10 @@ export default function AddLocationPage() {
     return (
         <>
             <Toaster></Toaster>
-            <h2 className={styles.title}>Add Location</h2>
+            <header className="page-header">
+                <h2>Add Location</h2>
+                <Link href="/"><Undo2 /></Link>
+            </header>
             <div className={styles.inputContainer}>
                 <Search
                     size={24}

@@ -20,12 +20,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Weather" />
       </head>
       <body>
-        <nav>
-          <ul>
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/add-location">Add Location</Link></li>
-          </ul>
-        </nav>
         <main>
           <h1 className="title">
             <CloudSun
