@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { CloudSun } from "lucide-react";
 
 import "./globals.css";
-import Link from "next/link";
+
+import ModeSwitcher from "@/components/ModeSwitcher";
 
 export const metadata: Metadata = {
   title: "Weather",
@@ -20,13 +21,16 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Weather" />
       </head>
       <body>
-        <main>
+        <header>
           <h1 className="title">
             <CloudSun
               size={32}
             />
             Weather
           </h1>
+          <ModeSwitcher />
+        </header>
+        <main>
           <div className="container">
             {children}
           </div>

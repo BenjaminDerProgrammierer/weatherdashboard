@@ -1,18 +1,53 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --toast-background: #f0f0f0;
-  --quiet: #888888;
-  --error: #ff0000;
+  --dark-background: #0a0a0a;
+  --dark-foreground: #c9c9c9;
+  --dark-toast-background: #1a1a1a;
+  --dark-quiet: #555555;
+  --dark-error: #800000;
+  --light-background: #e6e6e6;
+  --light-foreground: #171717;
+  --light-toast-background: #f0f0f0;
+  --light-quiet: #888888;
+  --light-error: #ff0000;
+}
+
+body:has(.enlighten-me) {
+  --background: var(--light-background);
+  --foreground: var(--light-foreground);
+  --toast-background: var(--light-toast-background);
+  --quiet: var(--light-quiet);
+  --error: var(--light-error);
+}
+
+body:has(.darken-me) {
+  --background: var(--dark-background);
+  --foreground: var(--dark-foreground);
+  --toast-background: var(--dark-toast-background);
+  --quiet: var(--dark-quiet);
+  --error: var(--dark-error);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --toast-background: #1a1a1a;
-    --quiet: #555555;
-    --error: #800000;
+    --background: var(--dark-background);
+    --foreground: var(--dark-foreground);
+    --toast-background: var(--dark-toast-background);
+    --quiet: var(--dark-quiet);
+    --error: var(--dark-error);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: var(--light-background);
+    --foreground: var(--light-foreground);
+    --toast-background: var(--light-toast-background);
+    --quiet: var(--light-quiet);
+    --error: var(--light-error);
   }
 }
 
@@ -40,11 +75,17 @@ main {
   padding: 1rem;
 }
 
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
 h1.title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 .container {
@@ -52,12 +93,7 @@ h1.title {
   max-width: 900px;
   margin: 0 auto;
   border: 1px solid var(--quiet);
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 /* Global */

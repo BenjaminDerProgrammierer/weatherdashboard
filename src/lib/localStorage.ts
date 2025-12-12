@@ -2,6 +2,8 @@ import { toast } from "react-hot-toast";
 
 import { Location } from "@/lib/weather";
 
+export type Mode = 'auto' | 'light' | 'dark';
+
 export function getLocalStorageLocations(): Location[] {
     if (globalThis.window === undefined) {
         return [];
@@ -46,4 +48,20 @@ export function removeLocalStorageLocation(location: Location) {
             color: "var(--foreground)"
         }
     });
+}
+
+export function getLocalStorageTheme(): Mode {
+    if (globalThis.window === undefined) {
+        return 'auto';
+    }
+
+    return localStorage.getItem("theme") as Mode || 'auto';
+}
+
+export function setLocalStorageTheme(mode: Mode) {
+    if (globalThis.window === undefined) {
+        return 'auto';
+    }
+
+    localStorage.setItem("theme", mode);
 }

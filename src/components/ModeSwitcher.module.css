@@ -1,0 +1,5 @@
+.modeSwitcher {
+    background-color: transparent;
+    color: var(--foreground);
+    border: none;
+}

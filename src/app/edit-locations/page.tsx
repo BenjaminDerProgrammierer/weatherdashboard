@@ -6,7 +6,7 @@ import { Toaster } from 'react-hot-toast';
 
 import styles from './page.module.css';
 import { Location } from '@/lib/weather';
-import { addLocalStorageLocation, getLocalStorageLocations, removeLocalStorageLocation } from '@/lib/locationStorage';
+import { addLocalStorageLocation, getLocalStorageLocations, removeLocalStorageLocation } from '@/lib/localStorage';
 import Link from 'next/link';
 
 export default function AddLocationPage() {

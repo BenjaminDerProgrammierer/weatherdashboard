@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from "react";
 
-import { getLocalStorageLocations } from "@/lib/locationStorage";
+import { getLocalStorageLocations } from "@/lib/localStorage";
 import { Location, Weather } from "@/lib/weather";
 import LocationWidget from "@/components/LocationWidget";
 import { Pencil, Plus } from "lucide-react";
