@@ -16,7 +16,7 @@
     "react-hot-toast": "^2.6.0"
   },
   "devDependencies": {
-    "@types/node": "^25",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
