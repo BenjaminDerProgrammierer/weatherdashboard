@@ -1,5 +1,6 @@
 services:
   weatherdashboard:
+    image: ghcr.io/benjaminderprogrammierer/weatherdashboard:latest
     container_name: weatherdashboard
     build:
       context: .
